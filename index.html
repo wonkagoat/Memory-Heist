@@ -24,6 +24,8 @@
       background: #070709;
       border: 0;
       box-shadow: inset 0 0 80px rgba(160, 0, 0, 0.16);
+      filter: brightness(var(--game-brightness, 1));
+      transition: filter 120ms linear;
     }
     .game.max-level {
       box-shadow: 0 0 46px rgba(255, 189, 66, 0.28), inset 0 0 95px rgba(255, 154, 42, 0.18);
@@ -486,30 +488,179 @@
       overflow: hidden;
       border: 0;
       outline: 0;
-      background: linear-gradient(180deg, #7dc5df 0%, #f6d59d 45%, #28504b 100%);
-      box-shadow: inset 0 0 90px rgba(255, 255, 255, 0.12);
+      background:
+        linear-gradient(180deg, #8fd3ee 0%, #ffe1a6 38%, #76b47e 62%, #1c3b37 100%);
+      box-shadow: inset 0 0 120px rgba(255, 255, 255, 0.16), inset 0 -140px 120px rgba(10, 24, 27, 0.34);
       color: #f8f2df;
       text-align: left;
     }
     .town-hub.night {
-      background: linear-gradient(180deg, #17244d 0%, #4f3e75 42%, #163633 100%);
+      background:
+        linear-gradient(180deg, #111a3d 0%, #382f67 42%, #17314a 66%, #0d2329 100%);
       outline-color: rgba(176, 137, 255, 0.62);
-      box-shadow: inset 0 0 95px rgba(112, 75, 190, 0.18);
+      box-shadow: inset 0 0 130px rgba(112, 75, 190, 0.22), inset 0 -150px 120px rgba(5, 10, 18, 0.5);
     }
     .town-scene {
       position: absolute;
       inset: 0;
       overflow: hidden;
       background:
-        radial-gradient(circle at 15% 12%, rgba(255,255,255,0.72), transparent 8%),
-        radial-gradient(circle at 86% 16%, rgba(255, 238, 169, 0.44), transparent 12%),
-        linear-gradient(180deg, transparent 0 44%, rgba(69, 129, 96, 0.32) 45% 60%, rgba(23, 42, 40, 0.9) 61% 100%);
+        radial-gradient(circle at 17% 14%, rgba(255,255,255,0.78) 0 3.5%, rgba(255, 232, 151, 0.42) 4% 10%, transparent 11%),
+        linear-gradient(180deg, rgba(255,255,255,0.16) 0%, transparent 38%),
+        linear-gradient(180deg, transparent 0 39%, rgba(88, 147, 124, 0.22) 40% 58%, rgba(18, 38, 38, 0.88) 70% 100%);
     }
     .town-hub.night .town-scene {
       background:
-        radial-gradient(circle at 78% 13%, rgba(211, 222, 255, 0.62), transparent 7%),
-        radial-gradient(circle at 18% 18%, rgba(146, 116, 255, 0.24), transparent 14%),
-        linear-gradient(180deg, transparent 0 44%, rgba(44, 73, 90, 0.34) 45% 60%, rgba(13, 25, 34, 0.94) 61% 100%);
+        radial-gradient(circle at 78% 13%, rgba(225, 234, 255, 0.7) 0 3.5%, rgba(149, 167, 255, 0.3) 4% 9%, transparent 10%),
+        linear-gradient(180deg, rgba(155, 132, 255, 0.12) 0%, transparent 36%),
+        linear-gradient(180deg, transparent 0 39%, rgba(44, 73, 90, 0.28) 40% 58%, rgba(9, 19, 29, 0.96) 70% 100%);
+    }
+    .town-scene::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(4, 12, 16, 0.34), transparent 18% 82%, rgba(4, 12, 16, 0.34)),
+        linear-gradient(180deg, transparent 0 64%, rgba(5, 12, 14, 0.2) 100%);
+      pointer-events: none;
+    }
+    .town-light-rays {
+      position: absolute;
+      inset: -18% -6% 0;
+      background:
+        linear-gradient(112deg, transparent 0 28%, rgba(255, 243, 194, 0.18) 30% 35%, transparent 37% 100%),
+        linear-gradient(126deg, transparent 0 48%, rgba(255, 232, 157, 0.14) 50% 53%, transparent 56% 100%);
+      mix-blend-mode: screen;
+      opacity: 0.78;
+      animation: townRays 7s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    .town-hub.night .town-light-rays {
+      background:
+        linear-gradient(112deg, transparent 0 31%, rgba(158, 135, 255, 0.15) 33% 37%, transparent 39% 100%),
+        linear-gradient(126deg, transparent 0 48%, rgba(109, 231, 255, 0.1) 50% 54%, transparent 57% 100%);
+      opacity: 0.58;
+    }
+    .town-cloud {
+      position: absolute;
+      top: 72px;
+      left: 8%;
+      width: 238px;
+      height: 58px;
+      opacity: 0.72;
+      background:
+        radial-gradient(ellipse at 18% 64%, rgba(255,255,255,0.74) 0 25%, transparent 26%),
+        radial-gradient(ellipse at 42% 42%, rgba(255,255,255,0.82) 0 34%, transparent 35%),
+        radial-gradient(ellipse at 68% 58%, rgba(255,255,255,0.68) 0 30%, transparent 31%),
+        linear-gradient(180deg, rgba(255,255,255,0.58), rgba(255,255,255,0.08));
+      filter: blur(0.2px);
+      animation: townCloudDrift 18s linear infinite;
+    }
+    .town-cloud.c2 {
+      top: 128px;
+      left: 62%;
+      width: 300px;
+      opacity: 0.5;
+      animation-duration: 24s;
+      animation-delay: -9s;
+    }
+    .town-cloud.c3 {
+      top: 40px;
+      left: 42%;
+      width: 190px;
+      opacity: 0.42;
+      animation-duration: 21s;
+      animation-delay: -14s;
+    }
+    .town-hub.night .town-cloud {
+      opacity: 0.28;
+      filter: blur(0.8px);
+    }
+    .town-mountains {
+      position: absolute;
+      left: -5%;
+      right: -5%;
+      bottom: 244px;
+      height: 230px;
+      background: linear-gradient(180deg, #c1b88d, #476a5f 68%, #244a46);
+      clip-path: polygon(0 82%, 9% 48%, 17% 68%, 27% 29%, 37% 66%, 48% 38%, 58% 70%, 70% 26%, 82% 64%, 91% 42%, 100% 78%, 100% 100%, 0 100%);
+      opacity: 0.74;
+      filter: saturate(1.06);
+    }
+    .town-mountains.back {
+      bottom: 302px;
+      height: 210px;
+      background: linear-gradient(180deg, rgba(214, 203, 167, 0.8), rgba(98, 122, 120, 0.62));
+      opacity: 0.42;
+      transform: scaleX(1.08);
+    }
+    .town-hub.night .town-mountains {
+      background: linear-gradient(180deg, #44517a, #263b55 68%, #132a37);
+      opacity: 0.64;
+    }
+    .town-hub.night .town-mountains.back {
+      background: linear-gradient(180deg, rgba(96, 95, 151, 0.72), rgba(37, 49, 76, 0.58));
+      opacity: 0.5;
+    }
+    .town-citadel-bg {
+      position: absolute;
+      left: 50%;
+      bottom: 244px;
+      width: 620px;
+      height: 300px;
+      transform: translateX(-50%);
+      opacity: 0.86;
+      filter: drop-shadow(0 26px 34px rgba(0,0,0,0.28));
+      background:
+        linear-gradient(180deg, #f2dba8, #9d775b) 50% 100% / 430px 128px no-repeat,
+        linear-gradient(180deg, #e6cda0, #7e604f) 50% 42% / 96px 210px no-repeat,
+        linear-gradient(180deg, #e6cda0, #7e604f) 25% 77% / 86px 160px no-repeat,
+        linear-gradient(180deg, #e6cda0, #7e604f) 75% 77% / 86px 160px no-repeat,
+        linear-gradient(180deg, #f7e2b1, #8a6350) 8% 90% / 76px 116px no-repeat,
+        linear-gradient(180deg, #f7e2b1, #8a6350) 92% 90% / 76px 116px no-repeat;
+      clip-path: polygon(4% 100%, 4% 58%, 12% 58%, 12% 44%, 20% 44%, 20% 30%, 29% 30%, 29% 51%, 42% 51%, 42% 18%, 50% 4%, 58% 18%, 58% 51%, 71% 51%, 71% 30%, 80% 30%, 80% 44%, 88% 44%, 88% 58%, 96% 58%, 96% 100%);
+    }
+    .town-citadel-bg::before {
+      content: "";
+      position: absolute;
+      inset: 62px 110px 0;
+      background:
+        repeating-linear-gradient(90deg, rgba(71, 104, 116, 0.9) 0 20px, rgba(242, 227, 178, 0.72) 21px 27px),
+        linear-gradient(180deg, transparent 0 62%, rgba(65, 42, 38, 0.26) 63% 100%);
+      border: 4px solid rgba(51, 38, 34, 0.52);
+      clip-path: polygon(0 100%, 0 28%, 14% 28%, 14% 15%, 30% 15%, 30% 0, 50% 0, 50% 16%, 70% 16%, 70% 29%, 100% 29%, 100% 100%);
+    }
+    .town-hub.night .town-citadel-bg {
+      opacity: 0.58;
+      filter: drop-shadow(0 22px 32px rgba(0,0,0,0.42)) brightness(0.82);
+    }
+    .town-bridge {
+      position: absolute;
+      left: 50%;
+      bottom: 155px;
+      width: 760px;
+      height: 72px;
+      transform: translateX(-50%);
+      background:
+        radial-gradient(ellipse at 18% 100%, transparent 0 25%, #756654 26% 38%, transparent 39%),
+        radial-gradient(ellipse at 38% 100%, transparent 0 25%, #756654 26% 38%, transparent 39%),
+        radial-gradient(ellipse at 58% 100%, transparent 0 25%, #756654 26% 38%, transparent 39%),
+        radial-gradient(ellipse at 78% 100%, transparent 0 25%, #756654 26% 38%, transparent 39%),
+        linear-gradient(180deg, #d1b980 0 24%, #92724e 25% 58%, #4a3932 59% 100%);
+      border: 4px solid rgba(46, 35, 30, 0.82);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.28);
+    }
+    .town-foreground {
+      position: absolute;
+      left: -4%;
+      right: -4%;
+      bottom: -18px;
+      height: 120px;
+      background:
+        radial-gradient(ellipse at 50% 0, rgba(255, 226, 146, 0.38), transparent 44%),
+        linear-gradient(10deg, rgba(58, 88, 60, 0.82), rgba(28, 55, 53, 0.95));
+      clip-path: polygon(0 36%, 12% 22%, 30% 34%, 47% 18%, 65% 30%, 82% 14%, 100% 30%, 100% 100%, 0 100%);
+      pointer-events: none;
     }
     .town-bloom {
       position: absolute;
@@ -699,10 +850,7 @@
     .town-ui {
       position: absolute;
       inset: 16px;
-      display: grid;
-      grid-template-columns: minmax(250px, 0.9fr) minmax(360px, 1.35fr) minmax(250px, 0.9fr);
-      gap: 14px;
-      align-items: start;
+      display: block;
       pointer-events: none;
     }
     .town-panel,
@@ -717,6 +865,48 @@
     }
     .town-panel {
       padding: 14px;
+    }
+    .town-panel-launcher {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: min(360px, calc(100vw - 32px));
+      pointer-events: auto;
+    }
+    .town-panel[data-town-panel] {
+      position: absolute;
+      display: none;
+      max-height: calc(100vh - 42px);
+      overflow: auto;
+      pointer-events: auto;
+      animation: townPanelOpen 180ms ease-out;
+    }
+    .town-panel[data-town-panel].active {
+      display: block;
+    }
+    .town-panel-close {
+      float: right;
+      min-width: 0;
+      margin: 0 0 8px 10px;
+      padding: 6px 10px;
+      font-size: 12px;
+      transform: skewX(-5deg);
+    }
+    .panel-loadout {
+      left: 0;
+      top: 158px;
+      width: min(330px, calc(100vw - 32px));
+    }
+    .panel-plaza {
+      left: 50%;
+      bottom: 10px;
+      width: min(680px, calc(100vw - 32px));
+      transform: translateX(-50%);
+    }
+    .panel-ledger {
+      right: 0;
+      top: 0;
+      width: min(330px, calc(100vw - 32px));
     }
     .town-panel h1,
     .town-panel h2,
@@ -767,7 +957,7 @@
     }
     .town-center {
       align-self: end;
-      margin-top: 272px;
+      margin-top: 0;
       max-height: 336px;
       overflow: auto;
     }
@@ -991,6 +1181,25 @@
       from { background-position: 0 0, 40px 20px; }
       to { background-position: 120px -90px, -140px -130px; }
     }
+    @keyframes townRays {
+      from { transform: translateX(-1.5%) skewX(-2deg); opacity: 0.56; }
+      to { transform: translateX(1.5%) skewX(2deg); opacity: 0.86; }
+    }
+    @keyframes townCloudDrift {
+      from { transform: translateX(-34px); }
+      to { transform: translateX(46px); }
+    }
+    @keyframes townPanelOpen {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .panel-plaza.active {
+      animation-name: townPanelOpenCentered;
+    }
+    @keyframes townPanelOpenCentered {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    }
     @keyframes waterRise {
       0%, 100% { transform: translateY(8px) scaleY(0.86); opacity: 0.65; }
       50% { transform: translateY(-5px) scaleY(1.05); opacity: 1; }
@@ -1109,6 +1318,86 @@
       top: 18px;
       bottom: auto;
     }
+    .settings-toggle {
+      position: absolute;
+      right: 140px;
+      bottom: 16px;
+      z-index: 9;
+      min-width: 118px;
+      margin: 0;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-family: Arial, Helvetica, sans-serif;
+      letter-spacing: 0.5px;
+      transform: skewX(-6deg);
+    }
+    .game.town-mode .settings-toggle {
+      right: 144px;
+      top: 18px;
+      bottom: auto;
+    }
+    .settings-panel {
+      position: absolute;
+      right: 16px;
+      bottom: 62px;
+      z-index: 12;
+      width: min(360px, calc(100vw - 32px));
+      padding: 14px;
+      background: linear-gradient(145deg, rgba(12, 19, 26, 0.97), rgba(44, 25, 53, 0.96));
+      border: 3px solid rgba(12, 12, 16, 0.95);
+      outline: 2px solid rgba(136, 216, 223, 0.68);
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.55), 0 0 34px rgba(107, 220, 232, 0.16);
+      color: #fff4e0;
+      pointer-events: auto;
+      text-align: left;
+      text-transform: uppercase;
+      animation: townPanelOpen 160ms ease-out;
+    }
+    .game.town-mode .settings-panel {
+      top: 64px;
+      bottom: auto;
+    }
+    .settings-panel.hidden {
+      display: none;
+    }
+    .settings-panel h2 {
+      margin: 0 0 10px;
+      color: #fff4d3;
+      text-shadow: 3px 3px 0 #050505, 0 0 18px rgba(107, 220, 232, 0.32);
+      font-size: 25px;
+    }
+    .settings-row {
+      display: grid;
+      gap: 7px;
+      margin: 12px 0;
+      font: 800 12px/1.2 Arial, Helvetica, sans-serif;
+      color: #e9ddc7;
+    }
+    .settings-row span {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .settings-row output {
+      color: #ffe394;
+    }
+    .settings-row input[type="range"] {
+      width: 100%;
+      accent-color: #75d6dd;
+    }
+    .settings-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .settings-actions button {
+      min-width: 0;
+      margin: 0;
+      padding: 8px 10px;
+      font-size: 13px;
+      transform: skewX(-5deg);
+    }
     .toast-layer {
       position: absolute;
       right: 16px;
@@ -1213,18 +1502,46 @@
       .town-hub { width: 100vw; height: 100vh; min-height: 0; border: 0; }
       .town-ui {
         inset: 8px;
-        grid-template-columns: 1fr;
         overflow: auto;
-        align-items: start;
         padding-bottom: 116px;
       }
+      .town-panel-launcher {
+        width: calc(100vw - 16px);
+      }
+      .town-panel[data-town-panel] {
+        left: 0;
+        right: 0;
+        top: 124px;
+        bottom: auto;
+        width: calc(100vw - 16px);
+        max-height: calc(100vh - 148px);
+        transform: none;
+      }
+      .panel-plaza {
+        transform: none;
+      }
+      .panel-plaza.active {
+        animation-name: townPanelOpen;
+      }
       .town-center {
-        margin-top: 24px;
+        margin-top: 0;
         max-height: none;
         overflow: visible;
       }
       .town-district-grid { grid-template-columns: 1fr; }
       .town-building { opacity: 0.72; transform: scale(0.82); transform-origin: bottom center; }
+      .town-citadel-bg {
+        bottom: 250px;
+        width: 520px;
+        height: 250px;
+        opacity: 0.56;
+      }
+      .town-mountains { bottom: 250px; height: 190px; }
+      .town-mountains.back { bottom: 302px; height: 170px; }
+      .town-cloud { transform: scale(0.72); transform-origin: left top; opacity: 0.42; }
+      .town-cloud.c2 { left: 48%; }
+      .town-bridge { width: 560px; height: 58px; bottom: 144px; }
+      .town-foreground { height: 92px; }
       .building-market { left: -10px; }
       .building-forge { left: 110px; }
       .building-academy { right: 96px; }
@@ -1236,6 +1553,10 @@
       .toast-layer { top: 96px; right: 8px; }
       .audio-toggle { right: 8px; bottom: 8px; }
       .game.town-mode .audio-toggle { right: 8px; top: 8px; bottom: auto; }
+      .settings-toggle { right: 128px; bottom: 8px; min-width: 104px; }
+      .game.town-mode .settings-toggle { right: 118px; top: 8px; bottom: auto; }
+      .settings-panel { right: 8px; bottom: 54px; width: calc(100vw - 16px); }
+      .game.town-mode .settings-panel { top: 54px; right: 8px; }
     }
   </style>
 </head>
@@ -1284,6 +1605,34 @@
     <div class="toast-layer" id="toastLayer"></div>
     <button class="town-home-shortcut hidden" id="townHomeShortcut" type="button">Back To Town</button>
     <button class="audio-toggle secondary" id="audioToggle" type="button">Audio On</button>
+    <button class="settings-toggle secondary" id="settingsToggle" type="button">Settings</button>
+    <section class="settings-panel hidden" id="settingsPanel" aria-label="Settings">
+      <h2>Settings</h2>
+      <label class="settings-row">
+        <span>Brightness <output id="brightnessValue">100%</output></span>
+        <input id="brightnessSlider" type="range" min="70" max="130" step="5" value="100" />
+      </label>
+      <label class="settings-row">
+        <span>Master Volume <output id="masterVolumeValue">80%</output></span>
+        <input id="masterVolumeSlider" type="range" min="0" max="100" step="5" value="80" />
+      </label>
+      <label class="settings-row">
+        <span>Music Volume <output id="musicVolumeValue">70%</output></span>
+        <input id="musicVolumeSlider" type="range" min="0" max="100" step="5" value="70" />
+      </label>
+      <label class="settings-row">
+        <span>SFX Volume <output id="sfxVolumeValue">90%</output></span>
+        <input id="sfxVolumeSlider" type="range" min="0" max="100" step="5" value="90" />
+      </label>
+      <label class="settings-row">
+        <span>Screen Shake <output id="shakeValue">100%</output></span>
+        <input id="shakeSlider" type="range" min="0" max="100" step="10" value="100" />
+      </label>
+      <div class="settings-actions">
+        <button id="settingsResetButton" class="secondary" type="button">Reset</button>
+        <button id="settingsCloseButton" type="button">Close</button>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -1297,6 +1646,20 @@
       const potionBar = document.getElementById("potionBar");
       const townHomeShortcut = document.getElementById("townHomeShortcut");
       const audioToggle = document.getElementById("audioToggle");
+      const settingsToggle = document.getElementById("settingsToggle");
+      const settingsPanel = document.getElementById("settingsPanel");
+      const brightnessSlider = document.getElementById("brightnessSlider");
+      const masterVolumeSlider = document.getElementById("masterVolumeSlider");
+      const musicVolumeSlider = document.getElementById("musicVolumeSlider");
+      const sfxVolumeSlider = document.getElementById("sfxVolumeSlider");
+      const shakeSlider = document.getElementById("shakeSlider");
+      const brightnessValue = document.getElementById("brightnessValue");
+      const masterVolumeValue = document.getElementById("masterVolumeValue");
+      const musicVolumeValue = document.getElementById("musicVolumeValue");
+      const sfxVolumeValue = document.getElementById("sfxVolumeValue");
+      const shakeValue = document.getElementById("shakeValue");
+      const settingsResetButton = document.getElementById("settingsResetButton");
+      const settingsCloseButton = document.getElementById("settingsCloseButton");
       const hpText = document.getElementById("hpText");
       const hpFill = document.getElementById("hpFill");
       const furyText = document.getElementById("furyText");
@@ -1328,7 +1691,7 @@
 
       let viewW = 960, viewH = 600, dpr = 1;
       let lastTime = 0, frameTime = 0, cameraX = 0;
-      let running = false, dead = false, shopOpen = false, skillOpen = false, weaponTreeOpen = false, achievementOpen = false, skillReturnMode = "menu", weaponReturnMode = "menu";
+      let running = false, dead = false, shopOpen = false, skillOpen = false, weaponTreeOpen = false, achievementOpen = false, skillReturnMode = "menu", weaponReturnMode = "menu", armorReturnMode = "town";
       let shake = 0, flash = 0, kills = 0, combo = 0, comboTimer = 0, waveTimer = 0, activeWeapon = 0, autosaveTimer = 0;
       let currentMapIndex = 0;
       let menuStep = "home";
@@ -1399,6 +1762,7 @@
       };
 
       const defaultLoot = () => ({ common: 0, rare: 0, epic: 0, legendary: 0 });
+      const defaultGameLevel = () => ({ level: 1, xp: 0, xpToNext: 90 });
       const potionDefs = {
         crimson: {
           name: "CRIMSON FLASK",
@@ -1443,12 +1807,74 @@
         axe: { heft: 0, quake: 0, forge: 0 },
         chain: { links: 0, thirst: 0, precision: 0 }
       });
+      const armorDefs = {
+        ironhide: {
+          name: "IRONHIDE HARNESS",
+          rarity: "common",
+          desc: "Starter battle armor. Light protection without slowing movement.",
+          hp: 1,
+          reduction: 0.06,
+          speedMult: 1,
+          damage: 0,
+          fury: 0,
+          color: "#4e535c",
+          trim: "#b8bdc7"
+        },
+        "sunlit-guard": {
+          name: "SUNLIT GUARD PLATE",
+          rarity: "rare",
+          desc: "Heavy city guard plate. Higher HP and damage reduction, slightly slower.",
+          hp: 2,
+          reduction: 0.14,
+          speedMult: 0.95,
+          damage: 0,
+          fury: 2,
+          color: "#6f7683",
+          trim: "#ffd36a"
+        },
+        "moon-thread": {
+          name: "MOONTHREAD CLOAK",
+          rarity: "epic",
+          desc: "Fast duelist armor. Less raw armor, more speed and fury flow.",
+          hp: 1,
+          reduction: 0.09,
+          speedMult: 1.09,
+          damage: 1,
+          fury: 6,
+          color: "#26283a",
+          trim: "#c56cff"
+        },
+        "dragon-bond": {
+          name: "DRAGON BOND REGALIA",
+          rarity: "legendary",
+          desc: "Endgame armor with strong protection, damage, and fury scaling.",
+          hp: 3,
+          reduction: 0.18,
+          speedMult: 1.03,
+          damage: 1,
+          fury: 10,
+          color: "#3c1710",
+          trim: "#ffbd42"
+        }
+      };
+      const defaultArmor = () => ({
+        equipped: "ironhide",
+        owned: ["ironhide"],
+        levels: Object.fromEntries(Object.keys(armorDefs).map(id => [id, 0]))
+      });
+      const defaultSettings = () => ({
+        brightness: 1,
+        masterVolume: 0.8,
+        musicVolume: 0.7,
+        sfxVolume: 0.9,
+        screenShake: 1
+      });
 
       const marketCatalog = [
-        { id: "sunlit-guard", name: "Sunlit Guard Plate", type: "Armor", rarity: "rare", price: 150, desc: "Marketplace armor prepared for future equipment slots." },
-        { id: "moon-thread", name: "Moonthread Cloak", type: "Cloak", rarity: "epic", price: 260, desc: "A dodge-focused cloth relic for future stat loadouts." },
+        { id: "sunlit-guard", name: "Sunlit Guard Plate", type: "Armor", rarity: "rare", price: 150, desc: "Unlocks a heavy armor set with strong guard and HP." },
+        { id: "moon-thread", name: "Moonthread Cloak", type: "Armor", rarity: "epic", price: 260, desc: "Unlocks a fast armor set with speed, damage, and fury." },
         { id: "river-charm", name: "River Charm", type: "Trinket", rarity: "common", price: 70, desc: "A plaza charm traded by local citizens." },
-        { id: "dragon-bond", name: "Dragon Bond Sigil", type: "Relic", rarity: "legendary", price: 520, desc: "A high-end auction relic reserved for future multiplayer trading." }
+        { id: "dragon-bond", name: "Dragon Bond Regalia", type: "Armor", rarity: "legendary", price: 520, desc: "Unlocks legendary armor with balanced endgame scaling." }
       ];
 
       const defaultTownState = () => ({
@@ -1529,7 +1955,10 @@
         musicStep: 0,
         mode: "menu",
         enabled: true,
-        musicEnabled: true
+        musicEnabled: true,
+        masterVolume: 0.8,
+        musicVolume: 0.7,
+        sfxVolume: 0.9
       };
 
       const defaultProfile = () => ({
@@ -1542,13 +1971,14 @@
         difficultyId: "normal",
         classId: "warrior",
         clearedMaps: [],
-        mapProgress: {},
+        gameLevel: defaultGameLevel(),
         run: null,
         skillPoints: 0,
         skills: { ravager: 0, bossBreaker: 0, furyEngine: 0, ironSkin: 0, scavenger: 0, assassinDash: 0 },
         upgrades: { vitality: 0, brutality: 0, focus: 0 },
         loot: defaultLoot(),
         potions: defaultPotions(),
+        armor: defaultArmor(),
         weaponTrees: defaultWeaponTrees(),
         achievements: {},
         daily: { date: "", kills: 0, loot: 0, bosses: 0, completed: false },
@@ -1556,6 +1986,7 @@
         totalKills: 0,
         legendaryDrops: 0,
         audio: { enabled: true, music: true },
+        settings: defaultSettings(),
         town: defaultTownState()
       });
       const weapons = [
@@ -1949,6 +2380,8 @@
         xpToNext: 90,
         damageBonus: 0,
         furyBonus: 0,
+        armorReduction: 0,
+        armorRank: 0,
         fury: 0,
         furyMax: 100,
         rageMode: 0,
@@ -1973,8 +2406,45 @@
         chill: 0,
         onGround: false,
         facing: 1,
-        anim: 0
+        anim: 0,
+        gait: 0
       };
+
+      function xpRequirementForLevel(level) {
+        let required = 90;
+        for (let i = 1; i < clamp(Math.floor(Number(level) || 1), 1, MAX_PLAYER_LEVEL); i++) {
+          required = Math.floor(required * 1.34 + 35);
+        }
+        return required;
+      }
+
+      function normalizeLevelProgress(progress, fallbackLevel = 1) {
+        const source = progress && typeof progress === "object" ? progress : {};
+        const level = clamp(Math.floor(Number(source.level) || fallbackLevel || 1), 1, MAX_PLAYER_LEVEL);
+        const xpToNext = Math.max(90, Math.floor(Number(source.xpToNext) || xpRequirementForLevel(level)));
+        const xp = level >= MAX_PLAYER_LEVEL ? xpToNext : clamp(Math.floor(Number(source.xp) || 0), 0, xpToNext);
+        return { level, xp, xpToNext };
+      }
+
+      function strongerLevelProgress(a, b) {
+        if (b.level > a.level) return b;
+        if (b.level < a.level) return a;
+        if (b.xp > a.xp) return b;
+        if (b.xp < a.xp) return a;
+        return b.xpToNext > a.xpToNext ? b : a;
+      }
+
+      function normalizeSettings(settings = {}, audio = {}) {
+        const base = defaultSettings();
+        const pick = (value, fallback) => Number.isFinite(Number(value)) ? Number(value) : fallback;
+        return {
+          brightness: clamp(pick(settings.brightness, base.brightness), 0.7, 1.3),
+          masterVolume: clamp(pick(settings.masterVolume ?? audio.masterVolume, base.masterVolume), 0, 1),
+          musicVolume: clamp(pick(settings.musicVolume ?? audio.musicVolume, base.musicVolume), 0, 1),
+          sfxVolume: clamp(pick(settings.sfxVolume ?? audio.sfxVolume, base.sfxVolume), 0, 1),
+          screenShake: clamp(pick(settings.screenShake, base.screenShake), 0, 1)
+        };
+      }
 
       function loadProfile() {
         try {
@@ -1985,21 +2455,36 @@
           for (const [treeId, nodes] of Object.entries(parsed && parsed.weaponTrees ? parsed.weaponTrees : {})) {
             weaponTrees[treeId] = { ...(weaponTrees[treeId] || {}), ...nodes };
           }
+          const armorBase = defaultArmor();
+          const parsedArmor = parsed && parsed.armor && typeof parsed.armor === "object" ? parsed.armor : {};
+          const armorOwned = Array.from(new Set([
+            ...armorBase.owned,
+            ...(Array.isArray(parsedArmor.owned) ? parsedArmor.owned : []),
+            ...((parsed && parsed.town && Array.isArray(parsed.town.inventory)) ? parsed.town.inventory : []),
+            ...((parsed && parsed.town && Array.isArray(parsed.town.bankEquipment)) ? parsed.town.bankEquipment : [])
+          ].filter(id => armorDefs[id])));
+          const armorLevels = { ...armorBase.levels };
+          for (const [id, rank] of Object.entries(parsedArmor.levels || {})) {
+            if (armorDefs[id]) armorLevels[id] = clamp(Math.floor(Number(rank) || 0), 0, 5);
+          }
+          const armor = {
+            equipped: armorDefs[parsedArmor.equipped] && armorOwned.includes(parsedArmor.equipped) ? parsedArmor.equipped : armorBase.equipped,
+            owned: armorOwned,
+            levels: armorLevels
+          };
           const townBase = defaultTownState();
           const parsedTown = parsed && parsed.town ? parsed.town : {};
           const parsedAutoFarm = parsedTown.autoFarm || {};
-          const mapProgress = {};
+          let gameLevel = normalizeLevelProgress(parsed && parsed.gameLevel);
           const parsedMapProgress = parsed && parsed.mapProgress && typeof parsed.mapProgress === "object" ? parsed.mapProgress : {};
-          for (const [mapId, progress] of Object.entries(parsedMapProgress)) {
+          for (const progress of Object.values(parsedMapProgress)) {
             if (!progress || typeof progress !== "object") continue;
-            const level = clamp(Math.floor(Number(progress.level) || 1), 1, MAX_PLAYER_LEVEL);
-            const xpToNext = Math.max(90, Math.floor(Number(progress.xpToNext) || 90));
-            mapProgress[mapId] = {
-              level,
-              xp: level >= MAX_PLAYER_LEVEL ? xpToNext : clamp(Math.floor(Number(progress.xp) || 0), 0, xpToNext),
-              xpToNext
-            };
+            gameLevel = strongerLevelProgress(gameLevel, normalizeLevelProgress(progress));
           }
+          if (parsed && Number.isFinite(parsed.bestLevel)) {
+            gameLevel = strongerLevelProgress(gameLevel, normalizeLevelProgress({ level: parsed.bestLevel }));
+          }
+          const settings = normalizeSettings(parsed && parsed.settings, parsed && parsed.audio);
           const town = {
             ...townBase,
             ...parsedTown,
@@ -2023,18 +2508,20 @@
           const loaded = {
             ...base,
             ...parsed,
+            bestLevel: Math.max(1, parsed && Number.isFinite(parsed.bestLevel) ? parsed.bestLevel : 1, gameLevel.level),
             unlockedMaps: Math.max(1, parsed && parsed.unlockedMaps ? parsed.unlockedMaps : 1),
             selectedMap: parsed && Number.isFinite(parsed.selectedMap) ? parsed.selectedMap : 0,
             difficultyId: parsed && difficultyDefs[parsed.difficultyId] ? parsed.difficultyId : base.difficultyId,
             classId: parsed && classDefs[parsed.classId] ? parsed.classId : base.classId,
             clearedMaps: Array.isArray(parsed && parsed.clearedMaps) ? parsed.clearedMaps : [],
-            mapProgress,
+            gameLevel,
             run: parsed && parsed.run ? parsed.run : null,
             skillPoints: parsed && Number.isFinite(parsed.skillPoints) ? parsed.skillPoints : 0,
             skills: { ...base.skills, ...(parsed && parsed.skills ? parsed.skills : {}) },
             upgrades: { ...base.upgrades, ...(parsed && parsed.upgrades ? parsed.upgrades : {}) },
             loot: { ...base.loot, ...(parsed && parsed.loot ? parsed.loot : {}) },
             potions: { ...base.potions, ...(parsed && parsed.potions ? parsed.potions : {}) },
+            armor,
             weaponTrees,
             achievements: { ...base.achievements, ...(parsed && parsed.achievements ? parsed.achievements : {}) },
             daily: { ...base.daily, ...(parsed && parsed.daily ? parsed.daily : {}) },
@@ -2042,11 +2529,17 @@
             totalKills: parsed && Number.isFinite(parsed.totalKills) ? parsed.totalKills : 0,
             legendaryDrops: parsed && Number.isFinite(parsed.legendaryDrops) ? parsed.legendaryDrops : 0,
             audio: { ...base.audio, ...(parsed && parsed.audio ? parsed.audio : {}) },
+            settings,
             town
           };
+          delete loaded.mapProgress;
           for (const id of Object.keys(potionDefs)) loaded.potions[id] = clamp(Math.floor(Number(loaded.potions[id]) || 0), 0, 99);
           audioSystem.enabled = loaded.audio.enabled !== false;
           audioSystem.musicEnabled = loaded.audio.music !== false;
+          audioSystem.masterVolume = settings.masterVolume;
+          audioSystem.musicVolume = settings.musicVolume;
+          audioSystem.sfxVolume = settings.sfxVolume;
+          applyVisualSettings(settings);
           return loaded;
         } catch {
           return defaultProfile();
@@ -2054,10 +2547,18 @@
       }
 
       function saveProfile() {
+        rememberGameLevel();
         profile.bestTime = Math.max(profile.bestTime || 0, world.elapsed || 0);
         profile.bestLevel = Math.max(profile.bestLevel || 1, player.level || 1);
         profile.selectedMap = currentMapIndex;
-        profile.audio = { enabled: audioSystem.enabled, music: audioSystem.musicEnabled };
+        profile.settings = normalizeSettings(profile.settings);
+        profile.audio = {
+          enabled: audioSystem.enabled,
+          music: audioSystem.musicEnabled,
+          masterVolume: profile.settings.masterVolume,
+          musicVolume: profile.settings.musicVolume,
+          sfxVolume: profile.settings.sfxVolume
+        };
         if (!classDefs[profile.classId]) profile.classId = "warrior";
         if (!difficultyDefs[profile.difficultyId]) profile.difficultyId = "normal";
         localStorage.setItem(saveKey, JSON.stringify(profile));
@@ -2531,9 +3032,47 @@
         world.lightBursts.push({ x, y, color, radius, life: max, max });
       }
 
+      function masterGainValue() {
+        return audioSystem.enabled ? 0.42 * audioSystem.masterVolume : 0;
+      }
+
+      function musicGainValue() {
+        return audioSystem.musicEnabled ? 0.5 * audioSystem.musicVolume : 0;
+      }
+
+      function sfxGainValue() {
+        return audioSystem.sfxVolume;
+      }
+
+      function applyVisualSettings(settings = profile.settings) {
+        const s = normalizeSettings(settings);
+        gameEl.style.setProperty("--game-brightness", s.brightness.toFixed(2));
+      }
+
+      function applyAudioSettings(smooth = true) {
+        if (!audioSystem.ctx) return;
+        const t = audioSystem.ctx.currentTime;
+        const method = smooth ? "setTargetAtTime" : "setValueAtTime";
+        audioSystem.master.gain[method](masterGainValue(), t, smooth ? 0.03 : undefined);
+        audioSystem.music.gain[method](musicGainValue(), t, smooth ? 0.03 : undefined);
+        audioSystem.sfx.gain[method](sfxGainValue(), t, smooth ? 0.03 : undefined);
+      }
+
+      function applySettings({ persist = false, smoothAudio = true } = {}) {
+        profile.settings = normalizeSettings(profile.settings);
+        audioSystem.masterVolume = profile.settings.masterVolume;
+        audioSystem.musicVolume = profile.settings.musicVolume;
+        audioSystem.sfxVolume = profile.settings.sfxVolume;
+        applyVisualSettings(profile.settings);
+        applyAudioSettings(smoothAudio);
+        syncSettingsPanel();
+        if (persist) saveProfile();
+      }
+
       function initAudio() {
         if (audioSystem.ctx) {
           if (audioSystem.ctx.state === "suspended") audioSystem.ctx.resume();
+          applyAudioSettings(false);
           return;
         }
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -2542,9 +3081,9 @@
         const master = ctxAudio.createGain();
         const music = ctxAudio.createGain();
         const sfx = ctxAudio.createGain();
-        master.gain.value = audioSystem.enabled ? 0.34 : 0;
-        music.gain.value = audioSystem.musicEnabled ? 0.34 : 0;
-        sfx.gain.value = 0.9;
+        master.gain.value = masterGainValue();
+        music.gain.value = musicGainValue();
+        sfx.gain.value = sfxGainValue();
         music.connect(master);
         sfx.connect(master);
         master.connect(ctxAudio.destination);
@@ -2561,22 +3100,72 @@
         audioToggle.classList.toggle("secondary", !audioSystem.enabled);
       }
 
+      function percentLabel(value) {
+        return `${Math.round(value * 100)}%`;
+      }
+
+      function syncSettingsPanel() {
+        if (!settingsPanel || !profile) return;
+        const s = normalizeSettings(profile.settings);
+        brightnessSlider.value = Math.round(s.brightness * 100);
+        masterVolumeSlider.value = Math.round(s.masterVolume * 100);
+        musicVolumeSlider.value = Math.round(s.musicVolume * 100);
+        sfxVolumeSlider.value = Math.round(s.sfxVolume * 100);
+        shakeSlider.value = Math.round(s.screenShake * 100);
+        brightnessValue.textContent = percentLabel(s.brightness);
+        masterVolumeValue.textContent = percentLabel(s.masterVolume);
+        musicVolumeValue.textContent = percentLabel(s.musicVolume);
+        sfxVolumeValue.textContent = percentLabel(s.sfxVolume);
+        shakeValue.textContent = percentLabel(s.screenShake);
+      }
+
+      function setSettingFromSlider(key, slider) {
+        profile.settings = normalizeSettings(profile.settings);
+        profile.settings[key] = clamp(Number(slider.value) / 100, key === "brightness" ? 0.7 : 0, key === "brightness" ? 1.3 : 1);
+        if (key === "masterVolume" || key === "musicVolume" || key === "sfxVolume") {
+          if (profile.settings.masterVolume > 0 && !audioSystem.enabled) audioSystem.enabled = true;
+          if (key === "musicVolume" && profile.settings.musicVolume > 0) audioSystem.musicEnabled = true;
+          initAudio();
+        }
+        applySettings({ persist: true, smoothAudio: true });
+        updateAudioToggle();
+        if (audioSystem.enabled && audioSystem.musicEnabled && !audioSystem.musicTimer) startMusic(running ? "combat" : "menu");
+      }
+
+      function toggleSettingsPanel() {
+        if (!settingsPanel) return;
+        syncSettingsPanel();
+        settingsPanel.classList.toggle("hidden");
+      }
+
+      function closeSettingsPanel() {
+        if (settingsPanel) settingsPanel.classList.add("hidden");
+      }
+
+      function resetSettings() {
+        profile.settings = defaultSettings();
+        audioSystem.enabled = true;
+        audioSystem.musicEnabled = true;
+        applySettings({ persist: true, smoothAudio: true });
+        updateAudioToggle();
+        startMusic(running ? "combat" : "menu");
+      }
+
       function toggleAudio() {
         initAudio();
         if (!audioSystem.ctx) return;
         if (!audioSystem.enabled) {
           audioSystem.enabled = true;
           audioSystem.musicEnabled = true;
-          audioSystem.master.gain.setTargetAtTime(0.34, audioSystem.ctx.currentTime, 0.02);
-          audioSystem.music.gain.setTargetAtTime(0.34, audioSystem.ctx.currentTime, 0.02);
+          applyAudioSettings(true);
           startMusic(running ? "combat" : "menu");
         } else if (audioSystem.musicEnabled) {
           audioSystem.musicEnabled = false;
-          audioSystem.music.gain.setTargetAtTime(0, audioSystem.ctx.currentTime, 0.03);
+          applyAudioSettings(true);
           stopMusic();
         } else {
           audioSystem.enabled = false;
-          audioSystem.master.gain.setTargetAtTime(0, audioSystem.ctx.currentTime, 0.03);
+          applyAudioSettings(true);
           stopMusic();
         }
         updateAudioToggle();
@@ -2657,7 +3246,7 @@
 
       function saveRun() {
         if (dead) return;
-        rememberCurrentMapLevel();
+        rememberGameLevel();
         profile.run = {
           map: currentMapIndex,
           classId: profile.classId,
@@ -2818,6 +3407,92 @@
         return 9999;
       }
 
+      function syncArmorOwnership() {
+        if (!profile.armor) profile.armor = defaultArmor();
+        if (!profile.armor.levels) profile.armor.levels = defaultArmor().levels;
+        const owned = new Set([...(profile.armor.owned || []), "ironhide"]);
+        for (const id of [...(profile.town.inventory || []), ...(profile.town.bankEquipment || [])]) {
+          if (armorDefs[id]) owned.add(id);
+        }
+        profile.armor.owned = [...owned].filter(id => armorDefs[id]);
+        for (const id of Object.keys(armorDefs)) {
+          profile.armor.levels[id] = clamp(Math.floor(Number(profile.armor.levels[id]) || 0), 0, 5);
+        }
+        if (!armorDefs[profile.armor.equipped] || !profile.armor.owned.includes(profile.armor.equipped)) profile.armor.equipped = "ironhide";
+      }
+
+      function currentArmor() {
+        syncArmorOwnership();
+        return armorDefs[profile.armor.equipped] || armorDefs.ironhide;
+      }
+
+      function armorStats(id = null) {
+        syncArmorOwnership();
+        const armorId = id || profile.armor.equipped;
+        const def = armorDefs[armorId] || armorDefs.ironhide;
+        const rank = clamp(Math.floor(Number(profile.armor.levels[armorId]) || 0), 0, 5);
+        const rarityIndex = rarityOrder.indexOf(def.rarity);
+        return {
+          id: armorId,
+          rank,
+          hp: def.hp + Math.floor((rank + 1) / 2),
+          damage: def.damage + Math.floor(rank / 3),
+          fury: def.fury + rank * 3,
+          speedMult: Math.max(0.84, def.speedMult + (rank * 0.006)),
+          reduction: clamp(def.reduction + rank * 0.025 + Math.max(0, rarityIndex) * 0.005, 0, 0.42)
+        };
+      }
+
+      function armorUpgradeCost(id) {
+        const def = armorDefs[id];
+        const rank = profile.armor && profile.armor.levels ? profile.armor.levels[id] || 0 : 0;
+        const rarityIndex = Math.max(0, rarityOrder.indexOf(def.rarity));
+        const loot = defaultLoot();
+        loot.common = 2 + rank;
+        loot[def.rarity] += 1 + rank;
+        if (rank >= 3) loot.epic += 1;
+        return { scrap: 120 + rank * 95 + rarityIndex * 140, loot };
+      }
+
+      function canUpgradeArmor(id) {
+        syncArmorOwnership();
+        if (!armorDefs[id] || !profile.armor.owned.includes(id) || (profile.armor.levels[id] || 0) >= 5) return false;
+        const cost = armorUpgradeCost(id);
+        return profile.scrap >= cost.scrap && rarityOrder.every(r => (profile.loot[r] || 0) >= (cost.loot[r] || 0));
+      }
+
+      function armorCostLabel(cost) {
+        return `${cost.scrap} SCRAP / ${rarityOrder.filter(r => cost.loot[r]).map(r => `${cost.loot[r]} ${rarityDefs[r].name}`).join(" / ")}`;
+      }
+
+      function equipArmor(id) {
+        syncArmorOwnership();
+        if (!armorDefs[id] || !profile.armor.owned.includes(id)) return;
+        profile.armor.equipped = id;
+        applyPermanentStats();
+        player.hp = Math.min(player.maxHp, player.hp + 1);
+        showToast("Armor Equipped", armorDefs[id].name, armorDefs[id].rarity);
+        saveProfile();
+        syncHud();
+        renderArmorShop(armorReturnMode);
+      }
+
+      function upgradeArmor(id) {
+        if (!canUpgradeArmor(id)) return;
+        const cost = armorUpgradeCost(id);
+        profile.scrap -= cost.scrap;
+        for (const rarity of rarityOrder) profile.loot[rarity] -= cost.loot[rarity] || 0;
+        profile.armor.levels[id] += 1;
+        if (profile.armor.equipped === id) {
+          applyPermanentStats();
+          player.hp = Math.min(player.maxHp, player.hp + 1);
+        }
+        showToast("Armor Upgrade", `${armorDefs[id].name} +${profile.armor.levels[id]}`, armorDefs[id].rarity);
+        saveProfile();
+        syncHud();
+        renderArmorShop(armorReturnMode);
+      }
+
       function buyUpgrade(type) {
         const cost = upgradeCost(type);
         if (profile.scrap < cost) return;
@@ -2842,11 +3517,14 @@
 
       function applyPermanentStats() {
         const cls = currentClass();
-        player.maxHp = Math.max(1, 3 + cls.hp + profile.upgrades.vitality + Math.floor((profile.skills.ironSkin || 0) / 2) + Math.floor((player.level - 1) / 3));
-        player.damageBonus = cls.damage + profile.upgrades.brutality + (profile.skills.ravager || 0) + Math.floor((player.level - 1) / 3);
-        player.furyBonus = profile.upgrades.focus * 3 + (profile.skills.furyEngine || 0) * 5 + Math.floor(player.level / 2);
-        player.speed = Math.round(255 * cls.speed);
+        const armor = armorStats();
+        player.maxHp = Math.max(1, 3 + cls.hp + armor.hp + profile.upgrades.vitality + Math.floor((profile.skills.ironSkin || 0) / 2) + Math.floor((player.level - 1) / 3));
+        player.damageBonus = cls.damage + armor.damage + profile.upgrades.brutality + (profile.skills.ravager || 0) + Math.floor((player.level - 1) / 3);
+        player.furyBonus = armor.fury + profile.upgrades.focus * 3 + (profile.skills.furyEngine || 0) * 5 + Math.floor(player.level / 2);
+        player.speed = Math.round(255 * cls.speed * armor.speedMult);
         player.jump = Math.round(760 * cls.jump);
+        player.armorReduction = armor.reduction;
+        player.armorRank = armor.rank;
         player.classDamageMult = 1;
         player.classFuryMult = cls.fury;
         player.classDashMult = cls.dash;
@@ -2887,26 +3565,21 @@
         return classDefs[profile.classId] || classDefs.warrior;
       }
 
-      function mapProgressFor(index = currentMapIndex) {
-        if (!profile.mapProgress) profile.mapProgress = {};
-        const saved = profile.mapProgress[index] || {};
-        const level = clamp(Math.floor(Number(saved.level) || 1), 1, MAX_PLAYER_LEVEL);
-        const xpToNext = Math.max(90, Math.floor(Number(saved.xpToNext) || 90));
-        const xp = level >= MAX_PLAYER_LEVEL ? xpToNext : clamp(Math.floor(Number(saved.xp) || 0), 0, xpToNext);
-        return { level, xp, xpToNext };
+      function gameLevelProgress() {
+        profile.gameLevel = normalizeLevelProgress(profile.gameLevel);
+        return profile.gameLevel;
       }
 
-      function rememberCurrentMapLevel() {
-        if (!Number.isFinite(currentMapIndex)) return false;
-        if (!profile.mapProgress) profile.mapProgress = {};
-        const saved = mapProgressFor(currentMapIndex);
+      function rememberGameLevel() {
+        if (!profile || !player) return false;
+        const saved = gameLevelProgress();
         const level = clamp(Math.floor(player.level || 1), 1, MAX_PLAYER_LEVEL);
         const xpToNext = Math.max(90, Math.floor(player.xpToNext || 90));
         const xp = level >= MAX_PLAYER_LEVEL ? xpToNext : clamp(Math.floor(player.xp || 0), 0, xpToNext);
         const improvesLevel = level > saved.level;
         const improvesXp = level === saved.level && xp > saved.xp;
         if (!improvesLevel && !improvesXp && saved.xpToNext >= xpToNext) return false;
-        profile.mapProgress[currentMapIndex] = { level, xp, xpToNext };
+        profile.gameLevel = { level, xp, xpToNext };
         profile.bestLevel = Math.max(profile.bestLevel || 1, level);
         return true;
       }
@@ -2999,15 +3672,15 @@
         activeWeapon = currentClass().weapon;
         dead = false;
         gameEl.classList.remove("max-level");
-        const rememberedLevel = mapProgressFor(currentMapIndex);
+        const savedGameLevel = gameLevelProgress();
 
         player.x = 80;
         player.y = 240;
         player.vx = 0;
         player.vy = 0;
-        player.level = rememberedLevel.level;
-        player.xp = rememberedLevel.xp;
-        player.xpToNext = rememberedLevel.xpToNext;
+        player.level = savedGameLevel.level;
+        player.xp = savedGameLevel.xp;
+        player.xpToNext = savedGameLevel.xpToNext;
         if (player.level >= MAX_PLAYER_LEVEL) player.xp = player.xpToNext;
         gameEl.classList.toggle("max-level", player.level >= MAX_PLAYER_LEVEL);
         applyPermanentStats();
@@ -3035,9 +3708,10 @@
         player.chill = 0;
         player.facing = 1;
         player.anim = 0;
+        player.gait = 0;
         player.onGround = false;
-        if (rememberedLevel.level > 1) {
-          world.messages.push({ text: `MAP LEVEL ${rememberedLevel.level} RESTORED`, x: player.x + player.w / 2, y: player.y - 62, life: 1.25, max: 1.25 });
+        if (savedGameLevel.level > 1) {
+          world.messages.push({ text: `GAME LEVEL ${savedGameLevel.level} RESTORED`, x: player.x + player.w / 2, y: player.y - 62, life: 1.25, max: 1.25 });
         }
 
         world.platforms = map.platforms.map(p => platform(p[0], p[1], p[2], p[3], p[4]));
@@ -3239,7 +3913,7 @@
           world.messages.push({ text: `UNLOCKED: ${maps[currentMapIndex + 1].name}`, x, y: y - 42, life: 2, max: 2 });
         }
         world.messages.push({ text: "MAP MISSION CLEAR", x, y, life: 1.8, max: 1.8 });
-        rememberCurrentMapLevel();
+        rememberGameLevel();
         saveProfile();
         return true;
       }
@@ -3373,7 +4047,7 @@
         running = false;
         shopOpen = false;
         profile.run = null;
-        rememberCurrentMapLevel();
+        rememberGameLevel();
         shake = 26;
         flash = 1;
         startMusic("menu");
@@ -3560,6 +4234,13 @@
       function renderTownScene() {
         return `
           <div class="town-scene">
+            <div class="town-light-rays"></div>
+            <div class="town-cloud c1"></div>
+            <div class="town-cloud c2"></div>
+            <div class="town-cloud c3"></div>
+            <div class="town-mountains back"></div>
+            <div class="town-mountains"></div>
+            <div class="town-citadel-bg"></div>
             <div class="town-bloom"></div>
             <div class="town-sparkles"></div>
             <div class="town-building building-market"></div>
@@ -3571,7 +4252,9 @@
             <div class="banner right"></div>
             <div class="torch t1"></div>
             <div class="torch t2"></div>
+            <div class="town-bridge"></div>
             <div class="town-ground"></div>
+            <div class="town-foreground"></div>
             <div class="fountain"></div>
             <div class="town-npc npc-a"></div>
             <div class="town-npc npc-b"></div>
@@ -3591,25 +4274,40 @@
         hideTownHomeShortcut();
         const challenge = currentDailyChallenge();
         const lootSummary = rarityOrder.map(r => `${rarityDefs[r].name} ${profile.loot[r] || 0}`).join(" / ");
+        const armor = armorStats();
+        const armorDef = currentArmor();
         const clears = maps.filter((_, i) => profile.clearedMaps.includes(i)).length;
         overlay.innerHTML = `
           <div class="town-hub ${isTownNight() ? "night" : "day"}">
             ${renderTownScene()}
             <div class="town-ui">
-              <section class="town-panel">
+              <section class="town-panel town-panel-launcher">
                 <h1>Memory<br>Citadel</h1>
-                <p>Central plaza between runs. Citizens, traders, trainers, portals, and guild services are now persistent hub systems.</p>
-                <div class="town-card">
-                  <h3>Loadout</h3>
-                  <p><strong>${currentClass().name}</strong><br>${currentMap().name} / ${currentWeapon().name}</p>
-                </div>
+                <p>Central plaza between runs.</p>
                 <div class="town-panel-actions">
+                  <button data-open-town-panel="plaza" type="button">Open City</button>
+                  <button data-open-town-panel="loadout" class="secondary" type="button">Loadout</button>
+                  <button data-open-town-panel="ledger" class="secondary" type="button">Ledger</button>
                   ${profile.run ? `<button id="townContinueButton" type="button">Continue Run</button>` : ""}
                   <button id="townClassButton" class="secondary" type="button">Classes</button>
                 </div>
               </section>
 
-              <section class="town-panel town-center">
+              <section class="town-panel panel-loadout" data-town-panel="loadout">
+                <button class="town-panel-close secondary" data-close-town-panel type="button">Close</button>
+                <h2>Loadout</h2>
+                <div class="town-card">
+                  <h3>Current Build</h3>
+                  <p><strong>${currentClass().name}</strong><br>${currentMap().name} / ${currentWeapon().name}<br>${armorDef.name} +${armor.rank}</p>
+                </div>
+                <div class="town-card">
+                  <h3>Power</h3>
+                  <p>Game Level ${gameLevelProgress().level}/${MAX_PLAYER_LEVEL}<br>Guard ${Math.round(armor.reduction * 100)}% / HP +${armor.hp}</p>
+                </div>
+              </section>
+
+              <section class="town-panel town-center panel-plaza" data-town-panel="plaza">
+                <button class="town-panel-close secondary" data-close-town-panel type="button">Close</button>
                 <h2>Central Plaza</h2>
                 <p>${isTownNight() ? "Night lanterns are lit across the upper terraces." : "Daylight fills the trade roads and fountain square."}</p>
                 <div class="town-district-grid">
@@ -3620,17 +4318,20 @@
                   <button class="town-district" data-town="bank">Bank<small>Storage vaults</small></button>
                   <button class="town-district" data-town="guild">Guild Hall<small>Guild systems</small></button>
                   <button class="town-district" data-town="boss">World Boss Board<small>Boss records</small></button>
+                  <button class="town-district" data-town="armor">Armory<small>Equip armor</small></button>
                   <button class="town-district" data-town="shop">War Shop<small>Existing shop</small></button>
                   <button class="town-district" data-town="potion">Alchemist<small>Essence potions</small></button>
                 </div>
               </section>
 
-              <section class="town-panel">
+              <section class="town-panel panel-ledger" data-town-panel="ledger">
+                <button class="town-panel-close secondary" data-close-town-panel type="button">Close</button>
                 <h2>City Ledger</h2>
                 <div class="town-roster">
                   <div class="town-card"><h3>Daily</h3><p>${challenge.name}<br><strong>${profile.daily.completed ? "Complete" : dailyProgressLabel()}</strong></p></div>
                   <div class="town-card"><h3>Progress</h3><p>Bosses ${profile.bossesDefeated} / Clears ${clears}/${maps.length}<br>Achievements ${Object.keys(profile.achievements).length}/${achievementDefs.length}</p></div>
                   <div class="town-card"><h3>Vault</h3><p>Scrap ${profile.scrap}<br>${lootSummary}</p></div>
+                  <div class="town-card"><h3>Armor</h3><p>${armorDef.name}<br>Guard ${Math.round(armor.reduction * 100)}% / HP +${armor.hp}</p></div>
                   <div class="town-card"><h3>Potions</h3><p>${potionInventorySummary("<br>")}</p></div>
                   <div class="town-card"><h3>Auto Farm</h3><p>${profile.town.autoFarm.enabled ? "Running" : "Paused"} / Power ${farmRates.power.toFixed(1)}<br>Ready ${farmPending.scrap} Scrap</p></div>
                 </div>
@@ -3641,10 +4342,26 @@
         const continueButton = document.getElementById("townContinueButton");
         if (continueButton) continueButton.addEventListener("click", continueRun);
         document.getElementById("townClassButton").addEventListener("click", showClassSelect);
+        overlay.querySelectorAll("[data-open-town-panel]").forEach(btn => {
+          btn.addEventListener("click", () => openTownHomePanel(btn.dataset.openTownPanel));
+        });
+        overlay.querySelectorAll("[data-close-town-panel]").forEach(btn => {
+          btn.addEventListener("click", closeTownHomePanels);
+        });
         overlay.querySelectorAll("[data-town]").forEach(btn => {
           btn.addEventListener("click", () => openTownDistrict(btn.dataset.town));
         });
         overlay.classList.remove("hidden");
+      }
+
+      function openTownHomePanel(id) {
+        overlay.querySelectorAll("[data-town-panel]").forEach(panel => {
+          panel.classList.toggle("active", panel.dataset.townPanel === id);
+        });
+      }
+
+      function closeTownHomePanels() {
+        overlay.querySelectorAll("[data-town-panel]").forEach(panel => panel.classList.remove("active"));
       }
 
       function openTownDistrict(id) {
@@ -3663,6 +4380,8 @@
           renderGuildHall();
         } else if (id === "boss") {
           renderWorldBossBoard();
+        } else if (id === "armor") {
+          renderArmorShop("town");
         } else if (id === "shop") {
           renderTownWarShop();
         } else if (id === "potion") {
@@ -3672,6 +4391,8 @@
 
       function renderTownWarShop() {
         const up = profile.upgrades;
+        const equippedArmor = armorStats();
+        const equippedArmorDef = currentArmor();
         const button = (type, label, desc) => {
           const cost = upgradeCost(type);
           const capped = type !== "heal" && up[type] >= 8;
@@ -3683,7 +4404,7 @@
           <div class="menu town-wide">
             <h1>War Shop</h1>
             <p>The existing permanent upgrade shop is now reachable from town without changing combat shop behavior.</p>
-            <p>Scrap: ${profile.scrap} | Best: ${profile.bestTime.toFixed(1)}s | Bosses: ${profile.bossesDefeated}</p>
+            <p>Scrap: ${profile.scrap} | Armor: ${equippedArmorDef.name} +${equippedArmor.rank} / ${Math.round(equippedArmor.reduction * 100)}% Guard</p>
             <div class="shop-grid">
               ${button("vitality", `VITALITY +${up.vitality}`, "+1 permanent max HP")}
               ${button("brutality", `BRUTALITY +${up.brutality}`, "+1 permanent damage")}
@@ -3691,6 +4412,7 @@
               ${button("heal", "FIELD REPAIR", "Full heal + fury")}
             </div>
             <div class="town-panel-actions">
+              <button id="townShopArmorButton" type="button">Armor</button>
               <button id="townShopForgeButton" type="button">Weapon Forge</button>
               <button id="townShopSkillButton" type="button">Skill Academy</button>
               <button id="townShopPotionButton" type="button">Alchemist</button>
@@ -3704,12 +4426,58 @@
             renderTownWarShop();
           });
         });
+        document.getElementById("townShopArmorButton").addEventListener("click", () => renderArmorShop("town"));
         document.getElementById("townShopForgeButton").addEventListener("click", () => openWeaponTree("menu"));
         document.getElementById("townShopSkillButton").addEventListener("click", renderSkillAcademy);
         document.getElementById("townShopPotionButton").addEventListener("click", () => renderPotionShop("town"));
         document.getElementById("townShopBackButton").addEventListener("click", () => {
           menuStep = "home";
           renderStartMenu();
+        });
+        overlay.classList.remove("hidden");
+        attachTownHomeShortcut();
+      }
+
+      function renderArmorShop(returnMode = "town") {
+        armorReturnMode = returnMode;
+        syncArmorOwnership();
+        const equipped = armorStats();
+        const cards = Object.entries(armorDefs).map(([id, def]) => {
+          const owned = profile.armor.owned.includes(id);
+          const stats = armorStats(id);
+          const cost = armorUpgradeCost(id);
+          const capped = stats.rank >= 5;
+          const canUpgrade = canUpgradeArmor(id);
+          const equipDisabled = !owned || profile.armor.equipped === id ? "disabled" : "";
+          const upgradeDisabled = !canUpgrade ? "disabled" : "";
+          return `
+            <div class="town-card">
+              <h3 class="rarity-${def.rarity}">${def.name} ${owned ? `+${stats.rank}` : ""}</h3>
+              <p>${def.desc}<br>HP +${stats.hp} / Damage +${stats.damage} / Fury +${stats.fury}<br>Guard ${Math.round(stats.reduction * 100)}% / Speed x${stats.speedMult.toFixed(2)}</p>
+              <div class="town-panel-actions">
+                <button data-armor-equip="${id}" ${equipDisabled}>${profile.armor.equipped === id ? "Equipped" : owned ? "Equip" : "Locked"}</button>
+                <button data-armor-upgrade="${id}" ${owned && !capped ? upgradeDisabled : "disabled"}>${capped ? "MAX" : owned ? `Upgrade<br><small>${armorCostLabel(cost)}</small>` : "Buy from Market"}</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+        overlay.innerHTML = `
+          <div class="menu town-wide">
+            <h1>Armor</h1>
+            <p>Equipped: ${currentArmor().name} +${equipped.rank} | Guard ${Math.round(equipped.reduction * 100)}% | Scrap ${profile.scrap}</p>
+            <div class="town-grid">${cards}</div>
+            <div class="town-panel-actions">
+              <button id="armorMarketButton" type="button">Trading Market</button>
+              <button id="armorBackButton" class="secondary" type="button">${armorReturnMode === "shop" ? "Back To Battle Shop" : "Back To War Shop"}</button>
+            </div>
+          </div>
+        `;
+        overlay.querySelectorAll("[data-armor-equip]").forEach(btn => btn.addEventListener("click", () => equipArmor(btn.dataset.armorEquip)));
+        overlay.querySelectorAll("[data-armor-upgrade]").forEach(btn => btn.addEventListener("click", () => upgradeArmor(btn.dataset.armorUpgrade)));
+        document.getElementById("armorMarketButton").addEventListener("click", () => renderTownMarket());
+        document.getElementById("armorBackButton").addEventListener("click", () => {
+          if (armorReturnMode === "shop") renderShop();
+          else renderTownWarShop();
         });
         overlay.classList.remove("hidden");
         attachTownHomeShortcut();
@@ -3756,7 +4524,7 @@
         const selectedDifficulty = currentDifficulty();
         const selectedCleared = profile.clearedMaps.includes(currentMapIndex);
         const selectedFastest = profile.town.fastestClears[currentMapIndex] ? `${profile.town.fastestClears[currentMapIndex].toFixed(1)}s` : "No clear yet";
-        const selectedProgress = mapProgressFor(currentMapIndex);
+        const selectedProgress = gameLevelProgress();
         const difficultyCards = Object.entries(difficultyDefs).map(([id, diff]) => `
           <button class="difficulty-card ${id === profile.difficultyId ? "selected" : ""}" data-difficulty="${id}" type="button">
             <strong>${diff.name}</strong>
@@ -3771,13 +4539,12 @@
           const fastest = profile.town.fastestClears[index] ? `${profile.town.fastestClears[index].toFixed(1)}s` : "No clear";
           const threats = [...new Set(map.enemyPool)].map(enemyKindName).join(", ");
           const mission = map.mission ? `${map.mission.title}: ${map.mission.desc}` : "Defeat the boss.";
-          const progress = mapProgressFor(index);
           return `
             <div class="portal-card ${unlocked ? "" : "locked"}">
               <h3>${unlocked ? map.name : "Locked Portal"}</h3>
               <p>${unlocked ? map.subtitle : "Defeat the previous boss to stabilize this portal."}</p>
               <div class="portal-vfx"></div>
-              <p><strong>Mission:</strong> ${unlocked ? mission : "Unknown"}<br><strong>Boss:</strong> ${unlocked ? map.bossName : "Unknown"}<br><strong>Remembered Level:</strong> ${unlocked ? `LV ${progress.level}` : "Unknown"}<br><strong>Status:</strong> ${cleared ? "Cleared" : "Open"}<br><strong>Best:</strong> ${fastest}<br><strong>Enemies:</strong> ${unlocked ? threats : "Unknown"}</p>
+              <p><strong>Mission:</strong> ${unlocked ? mission : "Unknown"}<br><strong>Boss:</strong> ${unlocked ? map.bossName : "Unknown"}<br><strong>Game Level:</strong> ${unlocked ? `LV ${selectedProgress.level}` : "Unknown"}<br><strong>Status:</strong> ${cleared ? "Cleared" : "Open"}<br><strong>Best:</strong> ${fastest}<br><strong>Enemies:</strong> ${unlocked ? threats : "Unknown"}</p>
               <div class="town-panel-actions">
                 <button data-portal-select="${index}" ${unlocked ? "" : "disabled"}>${selected ? "Selected" : "Select"}</button>
                 <button data-portal-enter="${index}" ${unlocked ? "" : "disabled"}>Enter</button>
@@ -3793,7 +4560,7 @@
               <h2>Level Briefing</h2>
               <p><strong>Selected:</strong> ${selectedMap.name} - ${selectedMap.subtitle}</p>
               <p><strong>Mission:</strong> ${selectedMap.mission ? `${selectedMap.mission.title} - ${selectedMap.mission.desc}` : "Defeat the boss."}</p>
-              <p><strong>Boss:</strong> ${selectedMap.bossName} / <strong>Remembered Level:</strong> LV ${selectedProgress.level} / <strong>Status:</strong> ${selectedCleared ? "Cleared" : "Uncleared"} / <strong>Fastest Clear:</strong> ${selectedFastest}</p>
+              <p><strong>Boss:</strong> ${selectedMap.bossName} / <strong>Game Level:</strong> LV ${selectedProgress.level} / <strong>Status:</strong> ${selectedCleared ? "Cleared" : "Uncleared"} / <strong>Fastest Clear:</strong> ${selectedFastest}</p>
               <p><strong>Difficulty:</strong> ${selectedDifficulty.name} / Scrap x${selectedDifficulty.scrapMult.toFixed(2)} / Essence x${selectedDifficulty.essenceMult.toFixed(2)}</p>
               <p>Each level portal keeps the existing combat, enemy waves, boss triggers, loot, achievements, and progression. Select a portal and difficulty before entering the run. Potions brewed from essence are usable with 4-7.</p>
               <div class="difficulty-grid">${difficultyCards}</div>
@@ -3898,6 +4665,12 @@
         if (!listing || profile.scrap < listing.price) return;
         profile.scrap -= listing.price;
         profile.town.inventory.push(listing.itemId);
+        if (armorDefs[listing.itemId]) {
+          syncArmorOwnership();
+          if (!profile.armor.owned.includes(listing.itemId)) profile.armor.owned.push(listing.itemId);
+          if (profile.armor.equipped === "ironhide") profile.armor.equipped = listing.itemId;
+          applyPermanentStats();
+        }
         profile.town.market.history.unshift({ type: "buy", itemId: listing.itemId, price: listing.price, date: todayKey() });
         showToast("Market Purchase", `${marketItem(listing.itemId).name} added to inventory.`, marketItem(listing.itemId).rarity);
         saveProfile();
@@ -3943,13 +4716,14 @@
       }
 
       function renderSkillAcademy() {
+        const progress = gameLevelProgress();
         overlay.innerHTML = `
           <div class="menu town-wide">
             <h1>Skill Academy</h1>
             <p>Arcane trainers connect directly to the existing Skill Tree. Permanent skill point progression is preserved.</p>
             <div class="town-grid">
               <div class="town-card"><h3>Trainer NPC</h3><p>Archivist Sena converts battlefield levels into mastered techniques.</p></div>
-              <div class="town-card"><h3>Skill Points</h3><p>${profile.skillPoints} available<br>Level ${player.level}/${MAX_PLAYER_LEVEL}</p></div>
+              <div class="town-card"><h3>Skill Points</h3><p>${profile.skillPoints} available<br>Game Level ${progress.level}/${MAX_PLAYER_LEVEL}</p></div>
               <div class="town-card"><h3>Academy Wards</h3><p>Magical lighting and rune panels are cosmetic hub upgrades.</p></div>
             </div>
             <div class="town-panel-actions">
@@ -4456,6 +5230,8 @@
 
       function renderShop() {
         const up = profile.upgrades;
+        const equippedArmor = armorStats();
+        const equippedArmorDef = currentArmor();
         const button = (type, label, desc) => {
           const cost = upgradeCost(type);
           const capped = type !== "heal" && up[type] >= 8;
@@ -4467,7 +5243,7 @@
         overlay.innerHTML = `
           <div class="menu">
             <h1>War Shop</h1>
-            <p>Scrap: ${profile.scrap} | Best: ${profile.bestTime.toFixed(1)}s | Bosses: ${profile.bossesDefeated}</p>
+            <p>Scrap: ${profile.scrap} | Armor: ${equippedArmorDef.name} +${equippedArmor.rank} / ${Math.round(equippedArmor.reduction * 100)}% Guard</p>
             <div class="shop-grid">
               ${button("vitality", `VITALITY +${up.vitality}`, "+1 permanent max HP")}
               ${button("brutality", `BRUTALITY +${up.brutality}`, "+1 permanent damage")}
@@ -4477,6 +5253,7 @@
             <button id="resumeButton" type="button">Resume</button>
             <button id="skillTreeButton" type="button">Skill Tree</button>
             <button id="weaponForgeButton" type="button">Weapon Forge</button>
+            <button id="armorShopButton" type="button">Armor</button>
             <button id="potionShopButton" type="button">Alchemist</button>
             <button id="saveButton" type="button">Save</button>
             <button id="shopTownButton" class="secondary" type="button">Back To Town</button>
@@ -4491,6 +5268,7 @@
           renderSkillTree();
         });
         document.getElementById("weaponForgeButton").addEventListener("click", () => openWeaponTree("shop"));
+        document.getElementById("armorShopButton").addEventListener("click", () => renderArmorShop("shop"));
         document.getElementById("potionShopButton").addEventListener("click", () => renderPotionShop("shop"));
         document.getElementById("shopTownButton").addEventListener("click", goTownHome);
         document.getElementById("saveButton").addEventListener("click", () => {
@@ -4533,6 +5311,7 @@
       function renderSkillTree() {
         skillOpen = true;
         shopOpen = false;
+        const progress = gameLevelProgress();
         const cards = Object.entries(skillDefs).map(([id, def]) => {
           const rank = profile.skills[id] || 0;
           const cost = skillCost(id);
@@ -4545,7 +5324,7 @@
         overlay.innerHTML = `
           <div class="menu">
             <h1>Skill Tree</h1>
-            <p>Skill Points: ${profile.skillPoints} | Level: ${player.level}</p>
+            <p>Skill Points: ${profile.skillPoints} | Game Level: ${progress.level}</p>
             <div class="shop-grid">${cards}</div>
             <button id="skillBackButton" type="button">${skillReturnMode === "menu" || dead ? "Back To Town" : "Back"}</button>
           </div>
@@ -4760,19 +5539,21 @@
         if (player.level >= MAX_PLAYER_LEVEL) {
           player.level = MAX_PLAYER_LEVEL;
           player.xp = player.xpToNext;
+          rememberGameLevel();
           return;
         }
         const comboBonus = combo >= 8 ? 1.35 : combo >= 4 ? 1.18 : 1;
         player.xp += Math.floor(amount * comboBonus);
         while (player.xp >= player.xpToNext && player.level < MAX_PLAYER_LEVEL) levelUp();
         if (player.level >= MAX_PLAYER_LEVEL) player.xp = player.xpToNext;
-        rememberCurrentMapLevel();
+        rememberGameLevel();
       }
 
       function levelUp() {
         if (player.level >= MAX_PLAYER_LEVEL) {
           player.level = MAX_PLAYER_LEVEL;
           player.xp = player.xpToNext;
+          rememberGameLevel();
           return;
         }
         player.xp -= player.xpToNext;
@@ -4796,7 +5577,7 @@
           showToast("Max Level", "UI ascended. Fury is fully charged.", "legendary");
         }
         playSfx("level");
-        rememberCurrentMapLevel();
+        rememberGameLevel();
         saveProfile();
       }
 
@@ -5088,6 +5869,13 @@
             return false;
           }
         }
+        const rawAmount = amount;
+        const armor = armorStats();
+        amount = Math.max(0.2, amount * (1 - armor.reduction));
+        if (rawAmount - amount >= 0.12) {
+          world.messages.push({ text: "ARMOR GUARD", x: player.x + player.w / 2, y: player.y - 58, life: 0.65, max: 0.65 });
+          spark(player.x + player.w / 2, player.y + player.h / 2, currentArmor().trim, 8);
+        }
         player.hp -= amount;
         player.invincible = 1.05 + amount * 0.18 + (profile.skills.ironSkin || 0) * 0.12;
         player.vx = player.x < fromX ? -430 - amount * 80 : 430 + amount * 80;
@@ -5144,7 +5932,16 @@
           player.vy = 0;
         }
 
-        player.anim += dt * (Math.abs(player.vx) > 25 && player.onGround ? 7 : 1.8);
+        const wasStep = Math.floor(player.anim / Math.PI);
+        const movingNow = Math.abs(player.vx) > 36 && player.onGround;
+        const speedRatio = clamp(Math.abs(player.vx) / Math.max(1, player.speed), 0, 1.45);
+        player.gait += ((movingNow ? 1 : 0) - (player.gait || 0)) * Math.min(1, dt * 11);
+        player.anim += dt * (player.onGround ? 2.1 + (player.gait || 0) * (5.8 + speedRatio * 3.8) : 3.35);
+        const stepIndex = Math.floor(player.anim / Math.PI);
+        if (movingNow && stepIndex !== wasStep && Math.abs(player.vx) > 72) {
+          const footSide = stepIndex % 2 === 0 ? -1 : 1;
+          dust(player.x + player.w / 2 - player.facing * footSide * 13, player.y + player.h - 3, Math.ceil(2 + speedRatio * 4), "#5e5e62");
+        }
         player.invincible = Math.max(0, player.invincible - dt);
         player.rageMode = Math.max(0, player.rageMode - dt);
         player.berserkTimer = Math.max(0, player.berserkTimer - dt);
@@ -5933,27 +6730,58 @@
         }
       }
 
+      function playerWalkPose(moving) {
+        const speedRatio = clamp(Math.abs(player.vx) / Math.max(1, player.speed), 0, 1.45);
+        const gait = clamp(player.gait || 0, 0, 1);
+        const cycle = player.anim;
+        const stride = Math.sin(cycle);
+        const liftWave = Math.cos(cycle);
+        const stridePx = (2 + speedRatio * 8.5) * gait;
+        const liftPx = (2 + speedRatio * 7) * gait;
+        const idleSway = (1 - gait) * Math.sin(cycle * 0.7) * 0.8;
+        const airborne = player.onGround ? 0 : 1;
+        return {
+          moving,
+          speedRatio,
+          gait,
+          bodyBob: player.onGround ? Math.abs(Math.sin(cycle * 2)) * -2.7 * gait + idleSway : -4 + clamp(player.vy / 260, -7, 8),
+          crouch: player.onGround ? Math.max(0, Math.sin(cycle * 2)) * 1.8 * gait : -2,
+          lean: player.onGround ? clamp(player.vx / Math.max(1, player.speed), -1, 1) * 0.09 : clamp(player.vx / 760, -1, 1) * 0.16,
+          armSwing: stride * (5 + speedRatio * 7) * gait + idleSway,
+          shoulderSway: Math.sin(cycle * 2) * 1.4 * gait,
+          leftLeg: {
+            swing: stride * stridePx,
+            lift: Math.max(0, liftWave) * liftPx + airborne * 5
+          },
+          rightLeg: {
+            swing: -stride * stridePx,
+            lift: Math.max(0, -liftWave) * liftPx + airborne * 5
+          },
+          shadowScale: player.onGround ? 1 + speedRatio * 0.12 : clamp(1 - Math.abs(player.vy) / 1200, 0.56, 0.9)
+        };
+      }
+
       function drawPlayer() {
         const x = player.x - cameraX, y = player.y;
         const moving = Math.abs(player.vx) > 25 && player.onGround;
-        const stomp = player.onGround ? Math.sin(player.anim) * (moving ? 2 : 0.8) : 0;
         const blink = player.invincible > 0 && Math.floor(player.invincible * 18) % 2 === 0;
         const weapon = currentWeapon();
         const cls = currentClass();
-        const step = Math.sin(player.anim) * (moving ? 5 : 1);
+        const pose = playerWalkPose(moving);
         if (blink) ctx.globalAlpha = 0.58;
         ctx.save();
-        ctx.translate(x + player.w / 2, y + player.h / 2 + stomp);
+        ctx.translate(x + player.w / 2, y + player.h / 2);
         ctx.scale(player.facing, 1);
 
-        ctx.fillStyle = "rgba(0,0,0,0.42)";
+        ctx.fillStyle = `rgba(0,0,0,${player.onGround ? 0.42 : 0.24})`;
         ctx.beginPath();
-        ctx.ellipse(0, 36, 31, 7, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 36, 31 * pose.shadowScale, 7 * pose.shadowScale, 0, 0, Math.PI * 2);
         ctx.fill();
 
         if (player.wardTimer > 0) {
           const pulse = 1 + Math.sin(frameTime * 0.012) * 0.04;
           ctx.save();
+          ctx.translate(0, pose.bodyBob);
           ctx.scale(pulse, pulse);
           ctx.globalAlpha = 0.42 + 0.18 * Math.sin(frameTime * 0.018);
           ctx.strokeStyle = potionDefs.aegis.color;
@@ -5966,10 +6794,13 @@
           ctx.restore();
         }
 
-        drawClassSkin(profile.classId, cls, step);
+        ctx.translate(0, pose.bodyBob);
+        ctx.rotate(pose.lean * player.facing);
+        drawClassSkin(profile.classId, cls, pose);
+        drawArmorOverlay(pose);
         drawPlayerStatusEffects();
 
-        drawEquippedWeapon(weapon);
+        drawEquippedWeapon(weapon, pose);
 
         if (player.attackTimer > 0) {
           ctx.strokeStyle = weapon.color;
@@ -6019,7 +6850,93 @@
         ctx.restore();
       }
 
-      function drawClassSkin(classId, cls, step) {
+      function drawAnimatedArmSwing(pose, frontColor, backColor, width = 8) {
+        const swing = pose.armSwing;
+        const sway = pose.shoulderSway;
+        const arms = [
+          { sx: -24, sy: -12 + sway * 0.25, cx: -34 - swing * 0.45, cy: 0 + sway * 0.4, hx: -28 - swing * 0.95, hy: 17 + swing * 0.18, color: backColor },
+          { sx: 24, sy: -10 - sway * 0.25, cx: 34 + swing * 0.35, cy: 2 - sway * 0.35, hx: 31 + swing * 0.82, hy: 15 - swing * 0.18, color: frontColor }
+        ];
+        ctx.save();
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        for (const arm of arms) {
+          ctx.strokeStyle = "#050505";
+          ctx.lineWidth = width + 5;
+          ctx.beginPath();
+          ctx.moveTo(arm.sx, arm.sy);
+          ctx.quadraticCurveTo(arm.cx, arm.cy, arm.hx, arm.hy);
+          ctx.stroke();
+          ctx.strokeStyle = arm.color;
+          ctx.lineWidth = width;
+          ctx.beginPath();
+          ctx.moveTo(arm.sx, arm.sy);
+          ctx.quadraticCurveTo(arm.cx, arm.cy, arm.hx, arm.hy);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawAnimatedLegs(pose, legColor, bootColor, legLine = 5, bootLine = 4, widthScale = 1) {
+        const hipY = 18 + pose.crouch * 0.6;
+        const kneeY = 29 + pose.crouch;
+        const footY = 34 + pose.crouch;
+        const legs = [
+          { side: -1, hipOuter: -18 * widthScale, hipInner: -3, data: pose.leftLeg },
+          { side: 1, hipOuter: 20 * widthScale, hipInner: 4, data: pose.rightLeg }
+        ].sort((a, b) => a.data.swing - b.data.swing);
+        for (const leg of legs) {
+          const swing = leg.data.swing;
+          const lift = leg.data.lift * 0.62;
+          const kneeOuter = leg.hipOuter + swing * 0.34;
+          const kneeInner = leg.hipInner + swing * 0.24;
+          const footCenter = leg.side * 15 * widthScale + swing * 0.72;
+          const toeReach = swing * 0.34 + leg.side * 7;
+          const ankleCenter = footCenter - toeReach * 0.12;
+          const ankleY = footY - 1 - lift * 0.58;
+          polygon([[leg.hipOuter, hipY], [leg.hipInner, hipY], [kneeInner, kneeY - lift * 0.25], [ankleCenter + 7 * widthScale, ankleY], [ankleCenter - 7 * widthScale, ankleY + 1], [kneeOuter, kneeY + 1 - lift * 0.2]], legColor, "#050505", legLine);
+          polygon([
+            [footCenter - 12 * widthScale, footY - lift],
+            [footCenter + 12 * widthScale + toeReach, footY - lift - 1],
+            [footCenter + 15 * widthScale + toeReach, footY + 7 - lift * 0.35],
+            [footCenter - 15 * widthScale, footY + 7 - lift * 0.35]
+          ], bootColor, "#050505", bootLine);
+        }
+      }
+
+      function drawArmorOverlay(pose) {
+        const def = currentArmor();
+        const stats = armorStats();
+        const trim = def.trim;
+        const bodyColor = def.color;
+        ctx.save();
+        ctx.globalAlpha = 0.9;
+        polygon([[-25, -18], [-12, -29], [13, -29], [27, -17], [20, 19 + pose.crouch * 0.25], [0, 27 + pose.crouch * 0.3], [-20, 19 + pose.crouch * 0.25]], bodyColor, "#050505", 4);
+        polygon([[-31, -19], [-18, -31], [-5, -24], [-17, -12]], trim, "#050505", 3);
+        polygon([[31, -19], [18, -31], [5, -24], [17, -12]], trim, "#050505", 3);
+        ctx.strokeStyle = trim;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(-17, -7);
+        ctx.lineTo(16, -7);
+        ctx.moveTo(0, -26);
+        ctx.lineTo(0, 21);
+        ctx.stroke();
+        if (stats.rank > 0) {
+          ctx.fillStyle = trim;
+          ctx.shadowColor = trim;
+          ctx.shadowBlur = 8;
+          for (let i = 0; i < stats.rank; i++) {
+            ctx.beginPath();
+            ctx.arc(-12 + i * 6, 8, 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.shadowBlur = 0;
+        }
+        ctx.restore();
+      }
+
+      function drawClassSkin(classId, cls, pose) {
         if (player.rageMode > 0) {
           ctx.strokeStyle = cls.color;
           ctx.shadowColor = cls.color;
@@ -6049,10 +6966,8 @@
           ctx.moveTo(-12, -26);
           ctx.lineTo(12, -26);
           ctx.stroke();
-          polygon([[-24, 28], [-5, 27], [-8, 52 + step], [-30, 52 + step]], "#1a1d24", "#050505", 5);
-          polygon([[6, 27], [27, 28], [33, 52 - step], [10, 52 - step]], "#1a1d24", "#050505", 5);
-          polygon([[-34, 49 + step], [-4, 49 + step], [-2, 59 + step], [-38, 59 + step]], "#353942", "#050505", 4);
-          polygon([[4, 49 - step], [36, 49 - step], [40, 59 - step], [3, 59 - step]], "#353942", "#050505", 4);
+          drawAnimatedArmSwing(pose, "#777b86", "#222833", 10);
+          drawAnimatedLegs(pose, "#1a1d24", "#353942", 5, 4, 1.12);
           return;
         }
 
@@ -6082,10 +6997,8 @@
           ctx.moveTo(-11, -12);
           ctx.lineTo(11, -12);
           ctx.stroke();
-          polygon([[-19, 25], [-2, 24], [-5, 49 + step], [-25, 49 + step]], "#221316", "#050505", 5);
-          polygon([[3, 24], [20, 25], [26, 49 - step], [6, 49 - step]], "#221316", "#050505", 5);
-          polygon([[-30, 47 + step], [-4, 47 + step], [-3, 56 + step], [-34, 56 + step]], "#4c1110", "#050505", 4);
-          polygon([[4, 47 - step], [31, 47 - step], [36, 56 - step], [3, 56 - step]], "#4c1110", "#050505", 4);
+          drawAnimatedArmSwing(pose, "#c08a62", "#6a3b1d", 8);
+          drawAnimatedLegs(pose, "#221316", "#4c1110", 5, 4, 1);
           return;
         }
 
@@ -6104,10 +7017,8 @@
           ctx.moveTo(-20, -4);
           ctx.lineTo(28, 4);
           ctx.stroke();
-          polygon([[-18, 25], [-5, 24], [-8, 52 + step], [-24, 52 + step]], "#0d0e13", "#050505", 4);
-          polygon([[5, 24], [18, 25], [23, 52 - step], [8, 52 - step]], "#0d0e13", "#050505", 4);
-          polygon([[-29, 49 + step], [-4, 49 + step], [-2, 57 + step], [-34, 57 + step]], "#15151a", "#050505", 4);
-          polygon([[4, 49 - step], [28, 49 - step], [34, 57 - step], [3, 57 - step]], "#15151a", "#050505", 4);
+          drawAnimatedArmSwing(pose, "#25252b", "#20232b", 7);
+          drawAnimatedLegs(pose, "#0d0e13", "#15151a", 4, 4, 0.9);
           return;
         }
 
@@ -6124,10 +7035,8 @@
         ctx.moveTo(-8, -13);
         ctx.lineTo(8, -13);
         ctx.stroke();
-        polygon([[-18, 24], [-3, 24], [-6, 47 + step], [-24, 47 + step]], "#15151a", "#050505", 5);
-        polygon([[4, 24], [20, 24], [25, 47 - step], [7, 47 - step]], "#15151a", "#050505", 5);
-        polygon([[-28, 45 + step], [-4, 45 + step], [-3, 54 + step], [-32, 54 + step]], "#3a0b09", "#050505", 4);
-        polygon([[5, 45 - step], [30, 45 - step], [34, 54 - step], [4, 54 - step]], "#3a0b09", "#050505", 4);
+        drawAnimatedArmSwing(pose, "#3a3a40", "#3a3a40", 8);
+        drawAnimatedLegs(pose, "#15151a", "#3a0b09", 5, 4, 1);
       }
 
       function drawPlayerStatusEffects() {
@@ -6172,10 +7081,11 @@
         }
       }
 
-      function drawEquippedWeapon(weapon) {
+      function drawEquippedWeapon(weapon, pose = null) {
+        const carrySwing = pose ? pose.armSwing * 0.012 : 0;
         ctx.save();
-        ctx.translate(28, 5);
-        ctx.rotate(player.attackTimer > 0 ? -0.55 : -0.2);
+        ctx.translate(28 + (pose ? pose.armSwing * 0.18 : 0), 5 + (pose ? pose.shoulderSway * 0.35 : 0));
+        ctx.rotate(player.attackTimer > 0 ? -0.55 : -0.2 + carrySwing);
         ctx.strokeStyle = "#050505";
         ctx.lineCap = "square";
         if (weapon.shortName === "AXE") {
@@ -6424,8 +7334,9 @@
       }
 
       function render() {
-        const sx = (Math.random() - 0.5) * shake;
-        const sy = (Math.random() - 0.5) * shake;
+        const shakeMult = profile && profile.settings ? normalizeSettings(profile.settings).screenShake : 1;
+        const sx = (Math.random() - 0.5) * shake * shakeMult;
+        const sy = (Math.random() - 0.5) * shake * shakeMult;
         ctx.save();
         ctx.translate(sx, sy);
         drawBackground();
@@ -6511,6 +7422,11 @@
         if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
         initAudio();
         const k = e.key.toLowerCase();
+        if (k === "escape" && settingsPanel && !settingsPanel.classList.contains("hidden")) {
+          e.preventDefault();
+          closeSettingsPanel();
+          return;
+        }
         if (weaponTreeOpen) {
           if (k === "escape" || k === "m") {
             e.preventDefault();
@@ -6628,9 +7544,19 @@
       });
       townHomeShortcut.addEventListener("click", goTownHome);
       audioToggle.addEventListener("click", toggleAudio);
+      settingsToggle.addEventListener("click", toggleSettingsPanel);
+      settingsCloseButton.addEventListener("click", closeSettingsPanel);
+      settingsResetButton.addEventListener("click", resetSettings);
+      brightnessSlider.addEventListener("input", () => setSettingFromSlider("brightness", brightnessSlider));
+      masterVolumeSlider.addEventListener("input", () => setSettingFromSlider("masterVolume", masterVolumeSlider));
+      musicVolumeSlider.addEventListener("input", () => setSettingFromSlider("musicVolume", musicVolumeSlider));
+      sfxVolumeSlider.addEventListener("input", () => setSettingFromSlider("sfxVolume", sfxVolumeSlider));
+      shakeSlider.addEventListener("input", () => setSettingFromSlider("screenShake", shakeSlider));
 
       ensureDaily();
+      applySettings({ persist: false, smoothAudio: false });
       updateAudioToggle();
+      syncSettingsPanel();
       resize();
       resetLevel();
       syncHud();
